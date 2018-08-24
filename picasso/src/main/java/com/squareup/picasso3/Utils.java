@@ -27,6 +27,7 @@ import android.os.Process;
 import android.os.StatFs;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import java.io.File;
@@ -45,7 +46,7 @@ import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static com.squareup.picasso3.Picasso.TAG;
 import static java.lang.String.format;
 
-final class Utils {
+public final class Utils {
   static final String THREAD_PREFIX = "Picasso-";
   static final String THREAD_IDLE_NAME = THREAD_PREFIX + "Idle";
   private static final String PICASSO_CACHE = "picasso-cache";
@@ -96,7 +97,7 @@ final class Utils {
     // No instances.
   }
 
-  static <T> T checkNotNull(T value, String message) {
+  public static @NonNull <T> T checkNotNull(@Nullable T value, @Nullable String message) {
     if (value == null) {
       throw new NullPointerException(message);
     }
@@ -143,7 +144,10 @@ final class Utils {
     log(owner, verb, logId, "");
   }
 
-  static void log(String owner, String verb, String logId, String extras) {
+  static void log(String owner, String verb, String logId, @Nullable String extras) {
+    if (extras == null) {
+      extras = "";
+    }
     Log.d(TAG, format("%1$-11s %2$-12s %3$s %4$s", owner, verb, logId, extras));
   }
 
